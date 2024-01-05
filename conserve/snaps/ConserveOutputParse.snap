@@ -1,0 +1,69 @@
+
+[TestVersions - 1]
+[]conserve.RawBackup{
+    {
+        Name: "b0009",
+        Date: time.Date(2023, time.December, 17, 21, 32, 21, 0, time.Local),
+    },
+    {
+        Name: "b0010",
+        Date: time.Date(2023, time.December, 17, 21, 38, 14, 0, time.Local),
+    },
+    {
+        Name: "b0011",
+        Date: time.Date(2023, time.December, 23, 17, 57, 6, 0, time.Local),
+    },
+    {
+        Name: "b0012",
+        Date: time.Date(2023, time.December, 23, 18, 23, 16, 0, time.Local),
+    },
+    {
+        Name: "b0013",
+        Date: time.Date(2023, time.December, 27, 14, 9, 25, 0, time.Local),
+    },
+    {
+        Name: "b0014",
+        Date: time.Date(2023, time.December, 27, 14, 10, 27, 0, time.Local),
+    },
+    {
+        Name: "b0015",
+        Date: time.Date(2023, time.December, 28, 14, 0, 1, 0, time.Local),
+    },
+    {
+        Name: "b0016",
+        Date: time.Date(2023, time.December, 29, 0, 0, 1, 0, time.Local),
+    },
+    {
+        Name: "b0017",
+        Date: time.Date(2023, time.December, 30, 19, 0, 1, 0, time.Local),
+    },
+    {
+        Name: "b0018",
+        Date: time.Date(2023, time.December, 31, 0, 0, 1, 0, time.Local),
+    },
+    {
+        Name: "b0019",
+        Date: time.Date(2024, time.January, 1, 12, 0, 1, 0, time.Local),
+    },
+    {
+        Name: "b0020",
+        Date: time.Date(2024, time.January, 2, 2, 0, 1, 0, time.Local),
+    },
+    {
+        Name: "b0021",
+        Date: time.Date(2024, time.January, 3, 11, 0, 1, 0, time.Local),
+    },
+    {
+        Name: "b0022",
+        Date: time.Date(2024, time.January, 4, 0, 0, 1, 0, time.Local),
+    },
+    {
+        Name: "b0023",
+        Date: time.Date(2024, time.January, 5, 2, 0, 1, 0, time.Local),
+    },
+    {
+        Name: "b0024",
+        Date: time.Date(2024, time.January, 6, 0, 0, 1, 0, time.Local),
+    },
+}
+---

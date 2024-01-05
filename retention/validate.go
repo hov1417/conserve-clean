@@ -1,33 +1,35 @@
 package retention
 
 import (
+	"conserve-clean/conserve"
 	"github.com/gammazero/deque"
 	"sort"
 	"time"
 )
 
-type RawBackup struct {
-	name string
-	date time.Time
-}
+type RawBackup = conserve.RawBackup
 
 type Backup struct {
 	name         string
 	relativeTime int64
 }
 
+func (b Backup) Name() string {
+	return b.name
+}
+
 // SplitByPolicy Splits a list of backups into two lists, first that satisfy the policy and second that does not.
 func SplitByPolicy(backups []RawBackup, policy Policy) ([]Backup, []Backup, error) {
 	// sort from newest to oldest
 	sort.Slice(backups, func(i, j int) bool {
-		return backups[i].date.Unix() > backups[j].date.Unix()
+		return backups[i].Date.Unix() > backups[j].Date.Unix()
 	})
 	var converted []Backup
 	now := time.Now().Unix()
 	for _, backup := range backups {
 		converted = append(converted, Backup{
-			name:         backup.name,
-			relativeTime: now - backup.date.Unix(),
+			name:         backup.Name,
+			relativeTime: now - backup.Date.Unix(),
 		})
 	}
 
@@ -38,7 +40,7 @@ func splitByPolicy(backups []Backup, policy Policy) ([]Backup, []Backup, error) 
 	var previousEnd int64 = 0
 	var generalRemove []Backup
 	for _, policyItem := range policy {
-		keep, remove := splitByInterval2(
+		keep, remove := splitByInterval(
 			backups,
 			previousEnd,
 			previousEnd+policyItem.durationSeconds,
@@ -52,12 +54,12 @@ func splitByPolicy(backups []Backup, policy Policy) ([]Backup, []Backup, error) 
 	return backups, generalRemove, nil
 }
 
-// splitByInterval2 Splits a list of backups into two lists,
+// splitByInterval Splits a list of backups into two lists,
 // first that has at most one backup per interval in range [start, end],
 // and second that has to be removed to satisfy previous condition.
 //
 // The list of backups must be sorted from newest to oldest.
-func splitByInterval2(backups []Backup, start, end, intervalSeconds int64) ([]Backup, []Backup) {
+func splitByInterval(backups []Backup, start, end, intervalSeconds int64) ([]Backup, []Backup) {
 	if intervalSeconds == 0 {
 		return backups, []Backup{}
 	}
@@ -95,28 +97,3 @@ func splitByInterval2(backups []Backup, start, end, intervalSeconds int64) ([]Ba
 
 	return keep, remove
 }
-
-//func splitByInterval(backups []RawBackup, start, end, intervalSeconds int64) ([]RawBackup, []RawBackup) {
-//	var keep []RawBackup
-//	var remove []RawBackup
-//	oneInTheInterval := false
-//	for _, backup := range backups {
-//		if backup.date.Unix() < start && end < backup.date.Unix() {
-//			keep = append(keep, backup)
-//		} else {
-//			if oneInTheInterval {
-//				lastInInterval := keep[len(keep)-1]
-//				if lastInInterval.date.Unix()-backup.date.Unix() < intervalSeconds {
-//					remove = append(remove, backup)
-//					oneInTheInterval = false
-//				} else {
-//					keep = append(keep, backup)
-//				}
-//			} else {
-//				keep = append(keep, backup)
-//				oneInTheInterval = true
-//			}
-//		}
-//	}
-//	return keep, remove
-//}

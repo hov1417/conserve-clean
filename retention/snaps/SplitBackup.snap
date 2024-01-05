@@ -1,19 +1,5 @@
 
-[TestSplitBy_7D1D - 1]
-[]retention.Backup{
-    {name:"backup1", relativeTime:86400},
-    {name:"backup2", relativeTime:172800},
-    {name:"backup3", relativeTime:259200},
-    {name:"backup4", relativeTime:345600},
-    {name:"backup5", relativeTime:432000},
-    {name:"backup6", relativeTime:1296000},
-    {name:"backup7", relativeTime:1382400},
-}
-[]retention.Backup(nil)
-nil
----
-
-[TestSplitBy_7D7D - 1]
+[TestSplitBy_1W1W_1 - 1]
 []retention.Backup{
     {name:"backup1", relativeTime:86400},
     {name:"backup6", relativeTime:1296000},
@@ -28,42 +14,131 @@ nil
 nil
 ---
 
-[TestSplitBy_7D1D_2 - 1]
+[TestSplitBy_1W1W_2 - 1]
 []retention.Backup{
     {name:"backup1", relativeTime:172800},
+    {name:"backup6", relativeTime:1382400},
+    {name:"backup7", relativeTime:1468800},
+}
+[]retention.Backup{
     {name:"backup2", relativeTime:259200},
     {name:"backup3", relativeTime:345600},
     {name:"backup4", relativeTime:432000},
     {name:"backup5", relativeTime:518400},
-    {name:"backup6", relativeTime:1382400},
-    {name:"backup7", relativeTime:1468800},
 }
-[]retention.Backup(nil)
 nil
 ---
 
-[TestSplitBy_7D1D_3 - 1]
+[TestSplitBy_1W1W_3 - 1]
 []retention.Backup{
     {name:"backup1", relativeTime:259200},
-    {name:"backup2", relativeTime:345600},
-    {name:"backup3", relativeTime:432000},
-    {name:"backup4", relativeTime:518400},
     {name:"backup6", relativeTime:1468800},
     {name:"backup7", relativeTime:1555200},
 }
-[]retention.Backup(nil)
+[]retention.Backup{
+    {name:"backup2", relativeTime:345600},
+    {name:"backup3", relativeTime:432000},
+    {name:"backup4", relativeTime:518400},
+}
 nil
 ---
 
-[TestSplitBy_7D1D_4 - 1]
+[TestSplitBy_1W1W_4 - 1]
 []retention.Backup{
     {name:"backup1", relativeTime:345600},
-    {name:"backup2", relativeTime:432000},
-    {name:"backup3", relativeTime:518400},
     {name:"backup5", relativeTime:691200},
     {name:"backup6", relativeTime:1555200},
     {name:"backup7", relativeTime:1641600},
 }
+[]retention.Backup{
+    {name:"backup2", relativeTime:432000},
+    {name:"backup3", relativeTime:518400},
+}
+nil
+---
+
+[TestSplitBy_1W1W_5 - 1]
+[]retention.Backup{
+    {name:"backup1", relativeTime:432000},
+    {name:"backup4", relativeTime:691200},
+    {name:"backup5", relativeTime:777600},
+    {name:"backup6", relativeTime:1641600},
+    {name:"backup7", relativeTime:1728000},
+}
+[]retention.Backup{
+    {name:"backup2", relativeTime:518400},
+}
+nil
+---
+
+[TestSplitBy_1W1W_6 - 1]
+[]retention.Backup{
+    {name:"backup1", relativeTime:518400},
+    {name:"backup3", relativeTime:691200},
+    {name:"backup4", relativeTime:777600},
+    {name:"backup5", relativeTime:864000},
+    {name:"backup6", relativeTime:1728000},
+    {name:"backup7", relativeTime:1814400},
+}
 []retention.Backup(nil)
+nil
+---
+
+[TestSplitBy_1W1W_7 - 1]
+[]retention.Backup{
+    {name:"backup2", relativeTime:691200},
+    {name:"backup3", relativeTime:777600},
+    {name:"backup4", relativeTime:864000},
+    {name:"backup5", relativeTime:950400},
+    {name:"backup6", relativeTime:1814400},
+    {name:"backup7", relativeTime:1900800},
+}
+[]retention.Backup(nil)
+nil
+---
+
+[TestSplitBy_1W1D - 1]
+[]retention.Backup{
+    {name:"backup1", relativeTime:86400},
+    {name:"backup2", relativeTime:172800},
+    {name:"backup3", relativeTime:259200},
+    {name:"backup4", relativeTime:345600},
+    {name:"backup5", relativeTime:432000},
+    {name:"backup6", relativeTime:1296000},
+    {name:"backup6-1", relativeTime:1296001},
+    {name:"backup6-2", relativeTime:1296002},
+    {name:"backup7", relativeTime:1382400},
+}
+[]retention.Backup{
+    {name:"backup1-1", relativeTime:86401},
+    {name:"backup1-2", relativeTime:86402},
+    {name:"backup1-3", relativeTime:86403},
+    {name:"backup1-4", relativeTime:86404},
+    {name:"backup2-1", relativeTime:172801},
+    {name:"backup2-2", relativeTime:172802},
+}
+nil
+---
+
+[TestSplitBy_1W1D_1M1M - 1]
+[]retention.Backup{
+    {name:"backup1", relativeTime:86400},
+    {name:"backup2", relativeTime:172800},
+    {name:"backup3", relativeTime:259200},
+    {name:"backup4", relativeTime:345600},
+    {name:"backup5", relativeTime:432000},
+    {name:"backup6", relativeTime:1296000},
+}
+[]retention.Backup{
+    {name:"backup1-1", relativeTime:86401},
+    {name:"backup1-2", relativeTime:86402},
+    {name:"backup1-3", relativeTime:86403},
+    {name:"backup1-4", relativeTime:86404},
+    {name:"backup2-1", relativeTime:172801},
+    {name:"backup2-2", relativeTime:172802},
+    {name:"backup6-1", relativeTime:1296001},
+    {name:"backup6-2", relativeTime:1296002},
+    {name:"backup7", relativeTime:1382400},
+}
 nil
 ---

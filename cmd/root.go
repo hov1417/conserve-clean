@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"conserve-clean/conserve"
 	"conserve-clean/retention"
 	"fmt"
 	"github.com/spf13/cobra"
@@ -22,15 +23,19 @@ which can be also noted as 'U' To avoid gaps, time frames all start at "now" and
 frames taking priority, thus the effective duration of longer time frames becomes shorter.`
 
 // rootCmd represents the base command when called without any subcommands
-var rootCmd = &cobra.Command{
-	Use:   "conserve-clean",
-	Short: "Clean Conserve RawBackup by a Given Filter",
-	Long:  longHelp,
-	// Uncomment the following line if your bare application
-	// has an action associated with it:
-	Run:  Run,
-	Args: cobra.ExactArgs(1),
-}
+var (
+	dir        string
+	executable string
+	rootCmd    = &cobra.Command{
+		Use:   "conserve-clean",
+		Short: "Clean Conserve RawBackup by a Given Filter",
+		Long:  longHelp,
+		// Uncomment the following line if your bare application
+		// has an action associated with it:
+		Run:  Run,
+		Args: cobra.ExactArgs(1),
+	}
+)
 
 func Execute() error {
 	return rootCmd.Execute()
@@ -41,8 +46,22 @@ func Run(cmd *cobra.Command, args []string) {
 	if err != nil {
 		panic(err)
 	}
-	fmt.Println(policy)
+
+	backups, err := conserve.Versions(executable, dir)
+	if err != nil {
+		panic(err)
+	}
+
+	_, remove, err := retention.SplitByPolicy(backups, policy)
+	if err != nil {
+		panic(err)
+	}
+	for _, backup := range remove {
+		fmt.Println(backup.Name())
+	}
 }
 
 func init() {
+	rootCmd.PersistentFlags().StringVarP(&dir, "dir", "d", ".", "directory to search for backups")
+	rootCmd.PersistentFlags().StringVarP(&executable, "executable", "e", "conserve", "executable to use for listing backups")
 }
