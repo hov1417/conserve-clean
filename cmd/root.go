@@ -9,22 +9,31 @@ import (
 
 // This format is stolen from
 // https://duplicati.readthedocs.io/en/latest/06-advanced-options/#retention-policy
-const longHelp = `Clean backups from 'sourcefrog/conserve' tool, using syntax like
-Specify one or more timeframe:interval duples, such as '7D:0s'
-Valid letters for time: 's', 'm', 'h', 'D', 'W', 'M', 'Y'
+const longHelp = `Duplicati style retention policy for sourcefrog's Conserve backups.
+By default this tool will print the names of backups that would be deleted.
+To actually delete them, use the --delete flag.
 
-Year and Month are approximations, and assume 365 days per year and 30 days per month.
+FORMAT OF RETENTION POLICY:
+The retention policy is a comma separated list of time frames, each of which is a
+timeframe:interval duple. The time frame is the duration of time to keep backups for,
+and the interval is the time between backups to keep.
+Both time frame and interval are specified as a number followed by a letter.
+The number is the number of time units, and the letter is the unit of time.
 
-Multiple duples shall be comma separated, and time frames shall be increasing.
+Valid letters for time: 's', 'm', 'h', 'D', 'W', 'M', 'Y' (case sensitive)
+corresponding to seconds, minutes, hours, days, weeks, months and years.
+Year and Month are approximations, and assumed to be 365 days per year and 30 days per month.
+
+When overlapping time frames are specified, the smallest time frame takes priority,
+thus the effective duration of longer time frames becomes shorter.
+
 For example the value '7D:0s,3M:1D,10Y:2M' means "during the next 7 day keep all backups,
 during the next 3 months from now keep a daily backup and for 10 years from now keep one
-backup every 2nd month. 0s stands for an interval of zero length, allowing unlimited versions to be kept,
-which can be also noted as 'U' To avoid gaps, time frames all start at "now" and overlap, with smaller time
-frames taking priority, thus the effective duration of longer time frames becomes shorter.`
+backup every 2nd month."`
 
 // rootCmd represents the base command when called without any subcommands
 var (
-    dir           string
+    path          string
     executable    string
     deleteBackups bool
     rootCmd       = &cobra.Command{
@@ -52,7 +61,7 @@ func execute(patter string) error {
         return err
     }
 
-    backups, err := conserve.Versions(executable, dir)
+    backups, err := conserve.Versions(executable, path)
     if err != nil {
         return err
     }
@@ -64,7 +73,7 @@ func execute(patter string) error {
 
     if deleteBackups {
         for _, backup := range remove {
-            if err := conserve.Delete(executable, dir, backup.Name()); err != nil {
+            if err := conserve.Delete(executable, path, backup.Name()); err != nil {
                 return err
             }
         }
@@ -77,7 +86,7 @@ func execute(patter string) error {
 }
 
 func init() {
-    rootCmd.PersistentFlags().StringVarP(&dir, "dir", "d", ".", "directory to search for backups")
+    rootCmd.PersistentFlags().StringVarP(&path, "path", "p", ".", "directory to search for backups")
     rootCmd.PersistentFlags().StringVarP(&executable, "executable", "e", "conserve", "executable to use for listing backups")
     rootCmd.PersistentFlags().BoolVarP(&deleteBackups, "delete", "d", false, "delete filtered backups")
 }
