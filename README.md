@@ -1,5 +1,5 @@
 # Conserve Clean
-Duplicati style retention policy for sourcefrog's Conserve backups.
+[Duplicati](https://duplicati.readthedocs.io/en/latest/06-advanced-options/#retention-policy) style retention policy for sourcefrog's Conserve backups.
 By default, this tool will print the names of backups that would be deleted.
 To actually delete them, use the --delete flag.
 
@@ -33,5 +33,5 @@ without `--delete` by default, the tool will only print the names of backups tha
 ## Installation
 
 ```bash
-go get -u github.com/hov1417/conserve-clean
+go install github.com/hov1417/conserve-clean@latest
 ```

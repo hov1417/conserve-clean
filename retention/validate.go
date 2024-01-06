@@ -1,8 +1,8 @@
 package retention
 
 import (
-	"conserve-clean/conserve"
 	"github.com/gammazero/deque"
+	"github.com/hov1417/conserve-clean/conserve"
 	"sort"
 	"time"
 )

@@ -1,7 +1,7 @@
 package main
 
 import (
-	"conserve-clean/cmd"
+	"github.com/hov1417/conserve-clean/cmd"
 	"os"
 )
 
