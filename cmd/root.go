@@ -1,10 +1,10 @@
 package cmd
 
 import (
-	"conserve-clean/conserve"
-	"conserve-clean/retention"
-	"fmt"
-	"github.com/spf13/cobra"
+    "conserve-clean/conserve"
+    "conserve-clean/retention"
+    "fmt"
+    "github.com/spf13/cobra"
 )
 
 // This format is stolen from
@@ -24,44 +24,60 @@ frames taking priority, thus the effective duration of longer time frames become
 
 // rootCmd represents the base command when called without any subcommands
 var (
-	dir        string
-	executable string
-	rootCmd    = &cobra.Command{
-		Use:   "conserve-clean",
-		Short: "Clean Conserve RawBackup by a Given Filter",
-		Long:  longHelp,
-		// Uncomment the following line if your bare application
-		// has an action associated with it:
-		Run:  Run,
-		Args: cobra.ExactArgs(1),
-	}
+    dir           string
+    executable    string
+    deleteBackups bool
+    rootCmd       = &cobra.Command{
+        Use:   "conserve-clean",
+        Short: "Clean Conserve RawBackup by a Given Filter",
+        Long:  longHelp,
+        Run:   Run,
+        Args:  cobra.ExactArgs(1),
+    }
 )
 
 func Execute() error {
-	return rootCmd.Execute()
+    return rootCmd.Execute()
 }
 
 func Run(cmd *cobra.Command, args []string) {
-	policy, err := retention.Parse(args[0])
-	if err != nil {
-		panic(err)
-	}
+    if err := execute(args[0]); err != nil {
 
-	backups, err := conserve.Versions(executable, dir)
-	if err != nil {
-		panic(err)
-	}
+    }
+}
 
-	_, remove, err := retention.SplitByPolicy(backups, policy)
-	if err != nil {
-		panic(err)
-	}
-	for _, backup := range remove {
-		fmt.Println(backup.Name())
-	}
+func execute(patter string) error {
+    policy, err := retention.Parse(patter)
+    if err != nil {
+        return err
+    }
+
+    backups, err := conserve.Versions(executable, dir)
+    if err != nil {
+        return err
+    }
+
+    _, remove, err := retention.SplitByPolicy(backups, policy)
+    if err != nil {
+        return err
+    }
+
+    if deleteBackups {
+        for _, backup := range remove {
+            if err := conserve.Delete(executable, dir, backup.Name()); err != nil {
+                return err
+            }
+        }
+    } else {
+        for _, backup := range remove {
+            fmt.Println(backup.Name())
+        }
+    }
+    return nil
 }
 
 func init() {
-	rootCmd.PersistentFlags().StringVarP(&dir, "dir", "d", ".", "directory to search for backups")
-	rootCmd.PersistentFlags().StringVarP(&executable, "executable", "e", "conserve", "executable to use for listing backups")
+    rootCmd.PersistentFlags().StringVarP(&dir, "dir", "d", ".", "directory to search for backups")
+    rootCmd.PersistentFlags().StringVarP(&executable, "executable", "e", "conserve", "executable to use for listing backups")
+    rootCmd.PersistentFlags().BoolVarP(&deleteBackups, "delete", "d", false, "delete filtered backups")
 }
