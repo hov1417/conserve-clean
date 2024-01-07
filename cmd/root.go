@@ -8,10 +8,9 @@ import (
 	"os"
 )
 
-// This format is stolen from
+// Original format description from Duplicati:
 // https://duplicati.readthedocs.io/en/latest/06-advanced-options/#retention-policy
-const longHelp = `
-conserve-clean, version 0.1.0
+const longHelp = `conserve-clean, version 0.2.0
 author: hov1417 <hovhannes1417@gmail.com>
 
 Duplicati style retention policy for sourcefrog's Conserve backups.
