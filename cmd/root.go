@@ -5,11 +5,16 @@ import (
 	"github.com/hov1417/conserve-clean/conserve"
 	"github.com/hov1417/conserve-clean/retention"
 	"github.com/spf13/cobra"
+	"os"
 )
 
 // This format is stolen from
 // https://duplicati.readthedocs.io/en/latest/06-advanced-options/#retention-policy
-const longHelp = `Duplicati style retention policy for sourcefrog's Conserve backups.
+const longHelp = `
+conserve-clean, version 0.1.0
+author: hov1417 <hovhannes1417@gmail.com>
+
+Duplicati style retention policy for sourcefrog's Conserve backups.
 By default this tool will print the names of backups that would be deleted.
 To actually delete them, use the --delete flag.
 
@@ -51,7 +56,8 @@ func Execute() error {
 
 func Run(cmd *cobra.Command, args []string) {
 	if err := execute(args[0]); err != nil {
-
+		fmt.Println(err)
+		os.Exit(1)
 	}
 }
 
