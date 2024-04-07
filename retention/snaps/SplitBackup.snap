@@ -86,6 +86,7 @@ nil
 
 [TestSplitBy_1W1W_7 - 1]
 []retention.Backup{
+    {name:"backup1", relativeTime:604800},
     {name:"backup2", relativeTime:691200},
     {name:"backup3", relativeTime:777600},
     {name:"backup4", relativeTime:864000},

@@ -60,9 +60,23 @@ func splitByPolicy(backups []Backup, policy Policy) ([]Backup, []Backup, error) 
 //
 // The list of backups must be sorted from newest to oldest.
 func splitByInterval(backups []Backup, start, end, intervalSeconds int64) ([]Backup, []Backup) {
+	//fmt.Println(backups, start, end, intervalSeconds)
+
 	if intervalSeconds == 0 {
 		return backups, []Backup{}
 	}
+
+	var count int64 = 0
+	for _, b := range backups {
+		if b.relativeTime >= start && b.relativeTime <= end {
+			count++
+		}
+	}
+
+	if end-start >= intervalSeconds*count {
+		return backups, []Backup{}
+	}
+
 	var keep []Backup
 	var remove []Backup
 	var inRange deque.Deque[Backup]
