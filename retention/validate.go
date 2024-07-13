@@ -71,6 +71,9 @@ func splitByInterval(backups []Backup, start, end, intervalSeconds int64) ([]Bac
 		if b.relativeTime >= start && b.relativeTime <= end {
 			count++
 		}
+		if b.relativeTime > end {
+			break
+		}
 	}
 
 	if end-start >= intervalSeconds*count {
