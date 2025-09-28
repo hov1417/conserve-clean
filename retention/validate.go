@@ -36,7 +36,7 @@ func SplitByPolicy(backups []RawBackup, policy Policy) ([]Backup, []Backup, erro
 	return splitByPolicy(converted, policy)
 }
 
-func splitByPolicy(backups []Backup, policy Policy) ([]Backup, []Backup, error) {
+func splitByPolicy(backups []Backup, policy Policy) (keep []Backup, remove []Backup, err error) {
 	var previousEnd int64 = 0
 	var generalRemove []Backup
 	for _, policyItem := range policy {
@@ -60,8 +60,6 @@ func splitByPolicy(backups []Backup, policy Policy) ([]Backup, []Backup, error) 
 //
 // The list of backups must be sorted from newest to oldest.
 func splitByInterval(backups []Backup, start, end, intervalSeconds int64) ([]Backup, []Backup) {
-	//fmt.Println(backups, start, end, intervalSeconds)
-
 	if intervalSeconds == 0 {
 		return backups, []Backup{}
 	}

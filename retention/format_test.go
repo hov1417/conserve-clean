@@ -26,7 +26,7 @@ func Test2Parse(t *testing.T) {
 		t.Errorf("Error parsing policy: %s", err)
 	}
 	if len(res) != 2 {
-		t.Errorf("Expected 2 result, got %d", len(res))
+		t.Errorf("Expected 2 results, got %d", len(res))
 	}
 	if res[0].durationSeconds != 7*24*60*60 {
 		t.Errorf("Expected 7 days, got %d", res[0].durationSeconds)
@@ -48,7 +48,7 @@ func TestParse(t *testing.T) {
 		t.Errorf("Error parsing policy: %s", err)
 	}
 	if len(res) != 3 {
-		t.Errorf("Expected 3 result, got %d", len(res))
+		t.Errorf("Expected 3 results, got %d", len(res))
 	}
 	if res[0].durationSeconds != 7*24*60*60 {
 		t.Errorf("Expected 7 days, got %d", res[0].durationSeconds)
@@ -67,5 +67,37 @@ func TestParse(t *testing.T) {
 	}
 	if res[2].intervalSeconds != 2*30*24*60*60 {
 		t.Errorf("Expected 2*30*24*60*60 seconds, got %d", res[0].intervalSeconds)
+	}
+}
+
+func TestHigherIntervalThanDuration(t *testing.T) {
+	res, err := Parse("7D:8D")
+	if err != nil {
+		t.Errorf("Error parsing policy: %s", err)
+	}
+	if len(res) != 1 {
+		t.Errorf("Expected 1 result, got %d", len(res))
+	}
+	if res[0].durationSeconds != 7*24*60*60 {
+		t.Errorf("Expected 7 days, got %d", res[0].durationSeconds)
+	}
+	if res[0].intervalSeconds != 8*24*60*60 {
+		t.Errorf("Expected 8 days, got %d", res[0].intervalSeconds)
+	}
+}
+
+func TestEqualIntervalAndDuration(t *testing.T) {
+	res, err := Parse("7D:7D")
+	if err != nil {
+		t.Errorf("Error parsing policy: %s", err)
+	}
+	if len(res) != 1 {
+		t.Errorf("Expected 1 result, got %d", len(res))
+	}
+	if res[0].durationSeconds != 7*24*60*60 {
+		t.Errorf("Expected 7 days, got %d", res[0].durationSeconds)
+	}
+	if res[0].intervalSeconds != 7*24*60*60 {
+		t.Errorf("Expected 7 days, got %d", res[0].intervalSeconds)
 	}
 }

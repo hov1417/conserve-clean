@@ -216,7 +216,6 @@ func TestRunningIntervalShouldNotAffectResult1(t *testing.T) {
 }
 
 func runningInterval3n(t *testing.T, n int, policy Policy) {
-	//fmt.Println("runningInterval3n", n)
 	// run every 3 days
 	backups1, err := runEveryNDays(3, n, policy)
 	if err != nil {
@@ -280,6 +279,16 @@ func TestRunningIntervalShouldNotAffectResult3(t *testing.T) {
 	}
 }
 
+func TestCleaningRange(t *testing.T) {
+	policy, err := Parse("2D:1D,1M:1M")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	keep, remove, err := splitByPolicy(mockData, policy)
+	s.MatchSnapshot(t, keep, remove, err)
+}
+
 func runEveryNDays(n, numberOfDays int, policy Policy) ([]Backup, error) {
 	var backups []Backup
 	for i := 0; i < numberOfDays; i++ {
@@ -288,7 +297,7 @@ func runEveryNDays(n, numberOfDays int, policy Policy) ([]Backup, error) {
 			name:         "backup" + strconv.Itoa(i),
 			relativeTime: 0,
 		}}, backups...)
-		//fmt.Println(backups)
+
 		if i%n == 0 {
 			keep, _, err := splitByPolicy(backups, policy)
 			if err != nil {

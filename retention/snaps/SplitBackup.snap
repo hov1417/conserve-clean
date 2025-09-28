@@ -143,3 +143,18 @@ nil
 }
 nil
 ---
+
+[TestCleaningRange - 1]
+[]retention.Backup{
+    {name:"backup1", relativeTime:86400},
+    {name:"backup2", relativeTime:172800},
+}
+[]retention.Backup{
+    {name:"backup3", relativeTime:259200},
+    {name:"backup4", relativeTime:345600},
+    {name:"backup5", relativeTime:432000},
+    {name:"backup6", relativeTime:1296000},
+    {name:"backup7", relativeTime:1382400},
+}
+nil
+---
